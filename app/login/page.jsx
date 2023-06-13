@@ -51,8 +51,8 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full py-10 flex items-center justify-center bg-gray-100">
-      <div className="md:w-2/6 bg-white shadow-md rounded px-8 py-10 ">
+    <div className="w-full py-16 flex items-center justify-center bg-gray-100">
+      <div className="bg-white shadow-md rounded px-4 py-10 ">
         <h3 className="mb-5  text-2xl font-semibold  text-gray-500 text-center">
           Login Here!
         </h3>
@@ -76,7 +76,7 @@ const Login = () => {
             </span>
           </div>
         ) : null}
-        <form className=" w-full h-full  mb-4" onSubmit={handleSubmit}>
+        <form className="w-full h-full mb-4" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"

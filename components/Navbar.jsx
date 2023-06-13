@@ -6,6 +6,7 @@ import React from "react";
 import { BsFillPhoneFill } from "react-icons/bs";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiMenu3Fill } from "react-icons/ri";
+import MobileNav from "./MobileNav";
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAppContext();
@@ -88,7 +89,7 @@ const Navbar = () => {
           )}
         </div>
         <div className="md:hidden ">
-          {isAuthenticated() ? (
+          {/* {isAuthenticated() ? (
             <div className="relative inline-block text-left">
               <button
                 type="button"
@@ -106,7 +107,7 @@ const Navbar = () => {
               >
                 <div className="py-1 w-full" role="none">
                   <a
-                    href="#"
+                    href="/dashboard"
                     className="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-gray-100"
                     role="menuitem"
                     tabIndex="-1"
@@ -164,7 +165,9 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
+
+          <MobileNav />
         </div>
       </div>
       <div></div>
