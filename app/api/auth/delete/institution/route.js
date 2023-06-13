@@ -21,9 +21,16 @@ export const DELETE = async (req) => {
 
     checkPermissions(payload.userId, resource?._id);
 
-    await user.findOneAndDelete({
-      "institutions._id": institutionId,
-    });
+    await user.findOneAndUpdate(
+      {
+        "institutions._id": institutionId,
+      },
+      {
+        $pull: {
+          "institutions.$._id": institutionId,
+        },
+      }
+    );
 
     return new Response(
       JSON.stringify({ msg: "Institution Deleted Successfully" }),
