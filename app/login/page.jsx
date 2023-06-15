@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <div className="w-full py-16 flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-md rounded px-4 py-10 ">
+      <div className="bg-white shadow-md rounded px-4 md:px-8 py-10 w-full  md:w-4/5 lg:w-3/6">
         <h3 className="mb-5  text-2xl font-semibold  text-gray-500 text-center">
           Login Here!
         </h3>
@@ -103,7 +103,7 @@ const Login = () => {
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
+            id="password"
               type="password"
               placeholder="***********"
               name="password"
@@ -113,7 +113,7 @@ const Login = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-indigo-500 disabled:bg-indigo-300  flex items-center justify-center gap-2 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 disabled:bg-blue-300  flex items-center justify-center gap-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
               disabled={isLoading}
             >

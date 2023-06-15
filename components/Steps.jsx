@@ -6,7 +6,7 @@ import { FiMessageSquare } from "react-icons/fi";
 
 const Steps = () => {
   return (
-    <div className="container w-full bg-white p-2 md:p-4 mb-4 rounded-md">
+    <div className="container w-full bg-white p-2 lg:p-4 mb-4 rounded-md">
       <div className={`steps flex justify-between pt-2 pb-1`}>
         <div className={`step completed`}>
           <div className="stepIconWrap">
@@ -23,8 +23,8 @@ const Steps = () => {
               <BiSelectMultiple className="md:text-4xl text-sm"/>{" "}
             </div>
           </div>
-          <h4 className="stepTitle ">
-            Ensure to Select all your Institutions{" "}
+          <h4 className="stepTitle">
+            Ensure to Select all your Institutions
           </h4>
         </div>
         <div className={`step completed`}>

@@ -25,7 +25,7 @@ const WCU = () => {
         <div className=" text-center">
           <h3 className="font-bold text-lg mb-1">Very Relaible Sources</h3>
           <p>
-            We ensre you have the most accurate and up-to-date information at
+            We ensure you have the most accurate and up-to-date information at
             your disposal.
           </p>
         </div>

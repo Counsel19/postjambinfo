@@ -13,12 +13,13 @@ const state = instituteLists.map((item) => Object.keys(item)[0]);
 const Register = () => {
   const [data, setData] = useState([]);
   const [focusIndex, setFocusIndex] = useState(-1);
-  const resultContainer = useRef(null);
   const stateResultContainer = useRef(null);
-  const [results, setResults] = useState([]);
+  const resultContainer = useRef(null);
   const [stateResults, setStateResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const [showStateResults, setShowStateResults] = useState(false);
+  const [results, setResults] = useState([]);
+  const [showStateResults, setShowStateResults] = useState([]);
+  const [showResults, setShowResults] = useState();
+  const [activeInput, setActiveInput] = useState("");
   const [instituteValue, setInstituteValue] = useState([
     { id: new ShortUniqueId({ length: 10 })(), value: "", state: "" },
   ]);
@@ -134,6 +135,7 @@ const Register = () => {
 
   const handleChange = (e, id) => {
     e.preventDefault();
+    setActiveInput(id);
     const curentValues = instituteValue.map((item) =>
       item.id === id
         ? { id: id, state: item.state, value: e.target.value }
@@ -143,14 +145,15 @@ const Register = () => {
     const { target } = e;
     if (!target.value.trim()) return setResults([]);
 
-    const filteredValue = data.filter((item) =>
-      item.toLowerCase().startsWith(target.value.toLowerCase())
+    const filteredValue = data.filter(
+      (item) => item.toLowerCase().indexOf(target.value.toLowerCase()) > -1
     );
     setResults(filteredValue);
   };
 
   const handleStateChange = (e, id) => {
     e.preventDefault();
+    setActiveInput(id);
     const curentValues = instituteValue.map((item) =>
       item.id === id
         ? { id: id, state: e.target.value, value: item.value }
@@ -160,8 +163,8 @@ const Register = () => {
     const { target } = e;
     if (!target.value.trim()) return setStateResults([]);
 
-    const filteredValue = state.filter((item) =>
-      item.toLowerCase().startsWith(target.value.toLowerCase())
+    const filteredValue = state.filter(
+      (item) => item.toLowerCase().indexOf(target.value.toLowerCase()) > -1
     );
     setStateResults(filteredValue);
   };
@@ -213,7 +216,7 @@ const Register = () => {
   return (
     <div
       id="register"
-      className="min-h-screen py-6 md:px-20 px-4 bg-gray-100 flex items-center justify-center"
+      className=" py-6 md:px-20 px-4 bg-gray-100 flex items-center justify-center"
     >
       {errorMessage ? (
         <div
@@ -241,7 +244,7 @@ const Register = () => {
             Register Here
           </p>
           <p className=" text-gray-500 tracking-wider text-center mb-6">
-            Get Started With us Today
+            Start Receiving SMS Notification as it is happening
           </p>
         </div>
 
@@ -250,7 +253,7 @@ const Register = () => {
             Registration cost only N500
           </div>
           <div className="grid gap-12 gap-y-2 text-sm  grid-cols-1 lg:grid-cols-5 items-center">
-            <div className="lg:col-span-3 grid gap-4 gap-y-6 text-sm grid-cols-1 md:grid-cols-6 items-center">
+            <div className="md:col-span-3 grid gap-4 gap-y-6 text-sm grid-cols-1 md:grid-cols-6 items-center">
               <div className="md:col-span-3">
                 <label htmlFor="full_name">Full Name</label>
                 <input
@@ -309,7 +312,7 @@ const Register = () => {
                     tabIndex={1}
                     key={institute.id}
                     onBlur={resetSearchComplete}
-                    className="relative w-full grid lg:grid-cols-6 gap-4 mb-3 items-center"
+                    className="relative w-full grid md:grid-cols-6 gap-4 mb-3 items-center"
                   >
                     <div
                       onKeyDown={(e) => handleKeyDown(e, institute, "state")}
@@ -353,7 +356,7 @@ const Register = () => {
                         name="institution"
                         id="institution"
                         placeholder="Enter your Institution"
-                        className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                        className="px-4 outline-none text-gray-800 w-full bg-transparent"
                         value={institute?.value}
                         onChange={(e) => handleChange(e, institute?.id)}
                       />
@@ -377,8 +380,8 @@ const Register = () => {
                       </button>
                     </div>
 
-                    <div className="absolute grid md:grid-cols-6 gap-4 md:top-full right-0 left-0">
-                      {showStateResults ? (
+                    <div className="absolute grid md:grid-cols-6 gap-4 md:top-full right-0 left-0 z-40">
+                      {showStateResults && activeInput === institute?.id ? (
                         <ul className=" mt-1 md:col-span-2 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
                           {stateResults.map((item, index) => (
                             <li
@@ -402,11 +405,11 @@ const Register = () => {
                           ))}
                         </ul>
                       ) : (
-                        <div className="mt-1 md:col-span-2 w-full"></div>
+                        <div className="hidden md:block mt-1 md:col-span-2 w-full -z-10"></div>
                       )}
 
-                      {showResults && (
-                        <ul className="md:col-span-3 mt-1 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
+                      {showResults && activeInput === institute?.id ? (
+                        <ul className=" mt-52 md:mt-1 md:col-span-3 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
                           {results.map((item, index) => (
                             <li
                               onMouseDown={() =>
@@ -426,8 +429,9 @@ const Register = () => {
                             </li>
                           ))}
                         </ul>
+                      ) : (
+                        <div className="hidden md:block mt-1 md:col-span-1 w-full -z-10"></div>
                       )}
-                      <div className="mt-1 md:col-span-1 w-full"></div>
                     </div>
 
                     <div className="col-span-1">
@@ -458,12 +462,12 @@ const Register = () => {
                 ))}
               </div>
 
-              <div className="md:col-span-5 mt-10 text-right">
+              <div className="md:col-span-6 my-10 lg:mb-0 text-right">
                 <div className="inline-flex items-end">
                   <button
                     onClick={handleInitPayment}
                     disabled={isLoading}
-                    className="bg-blue-500 flex items-center gap-2 hover:bg-blue-700 text-white font-bold py-3 px-6 text-lg rounded disabled:bg-blue-200"
+                    className="bg-blue-500 w-52 flex justify-center items-center gap-2 hover:bg-blue-700 text-white font-bold py-3 px-6 text-lg rounded disabled:bg-blue-200"
                   >
                     Submit
                     {isLoading && <TailSpin height="20" width="20" />}
@@ -472,9 +476,9 @@ const Register = () => {
               </div>
             </div>
 
-            <div className="w-full col-span-1 lg:col-span-2 rounded-2xl">
+            <div className="w-full  md:col-span-2 rounded-2xl">
               <div className="relative py-3">
-                <div className="absolute md:inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+                <div className="absolute lg:inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                 <div className="relative flex items-center justify-center px-8 py-10 bg-white shadow-lg sm:rounded-3xl">
                   <div>
                     <h1 className="text-xl font-semibold mb-3">
