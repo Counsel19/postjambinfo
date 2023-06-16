@@ -154,6 +154,7 @@ const AppContextProvider = ({ children }) => {
       return data?.url;
     } catch (error) {
       dispatch({ type: ACTIONS.STOP_LOADING });
+      handleInfo(error?.response.data.msg, true);
       console.log(error);
     }
   };

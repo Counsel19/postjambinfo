@@ -92,7 +92,7 @@ const Dashboard = () => {
 
       {errorMessage ? (
         <div
-          className="bg-red-100 border z-50 border-red-400 text-red-700 px-4 py-2 rounded flex items-center justify-between gap-4 mb-6 fixed top-[6rem] right-[3rem]"
+          className="bg-red-100 border z-50 border-red-400 text-red-700 px-4 py-2 rounded flex items-center justify-between gap-4 mb-6 fixed top-[2rem] right-[1.5rem] lg:top-[6rem] lg:right-[3rem]"
           role="alert"
         >
           <strong className="font-bold">{errorMessage}!</strong>
