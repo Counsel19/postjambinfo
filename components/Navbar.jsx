@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BsFillPhoneFill } from "react-icons/bs";
 import { MdOutlineMailOutline } from "react-icons/md";
 import MobileNav from "./MobileNav";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { isAuthenticated, showDesktopDD, handleInputChange, user, logout } =
