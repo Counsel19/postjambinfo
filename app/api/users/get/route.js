@@ -1,4 +1,3 @@
-import Errorhandler from "@/utils/handleError";
 import User from "@/model/user";
 import { connectToDB } from "@/utils/connect";
 import { StatusCodes } from "http-status-codes";
@@ -78,12 +77,18 @@ export const GET = async (req) => {
       users = await result;
     }
 
-    if (!users) return new Response("Users Not Found", { status: 404 });
+    if (!users)
+      return new Response(JSON.stringify({ msg: "Users Not Found" }), {
+        status: StatusCodes.BAD_REQUEST,
+      });
 
     return new Response(JSON.stringify({ users, totalUsers, numOfPages }), {
       status: StatusCodes.OK,
     });
   } catch (error) {
-    Errorhandler(error);
+    return new Response(
+      JSON.stringify({ msg: error.message || "Something Went Wrong" }),
+      { status: StatusCodes.INTERNAL_SERVER_ERROR }
+    );
   }
 };

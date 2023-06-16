@@ -99,6 +99,31 @@ const AppContextProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
+
+  const getUser = async () => {
+    try {
+      dispatch({ type: ACTIONS.START_LOADING });
+      const { user: userInfo } = state;
+
+      const { data } = await authFetch.get(`/user?id=${userInfo._id}`);
+      const { user, token } = data;
+      dispatch({
+        type: ACTIONS.LOGIN,
+        payload: {
+          user,
+          token,
+        },
+      });
+
+      addUserToLocalStorage({ user, token });
+
+      dispatch({ type: ACTIONS.STOP_LOADING });
+    } catch (error) {
+      handleInfo(error?.response.data.msg, true);
+      dispatch({ type: ACTIONS.STOP_LOADING });
+    }
+  };
+
   const handleSaveDetails = async ({
     fullname,
     email,
@@ -164,9 +189,12 @@ const AppContextProvider = ({ children }) => {
       dispatch({ type: ACTIONS.START_LOADING });
       let { data } = await authFetch.get(`/payment/verify?ref=${ref}`);
 
+      await getUser();
+
       return data;
     } catch (error) {
       console.log(error);
+      handleInfo(error?.response.data.msg, true);
       dispatch({ type: ACTIONS.STOP_LOADING });
     }
   };
@@ -185,6 +213,7 @@ const AppContextProvider = ({ children }) => {
       return res.data;
     } catch (error) {
       console.log(error);
+      handleInfo(error?.response.data.msg, true);
       dispatch({ type: ACTIONS.STOP_LOADING });
     }
   };
@@ -244,30 +273,6 @@ const AppContextProvider = ({ children }) => {
     }
   };
 
-  const getUser = async () => {
-    try {
-      dispatch({ type: ACTIONS.START_LOADING });
-
-      const { data } = await authFetch.delete(`/user/`);
-
-      const { token } = state;
-
-      dispatch({
-        type: ACTIONS.LOGIN,
-        payload: {
-          user: data,
-          token,
-        },
-      });
-
-      addUserToLocalStorage({ user, token });
-
-      dispatch({ type: ACTIONS.STOP_LOADING });
-    } catch (error) {
-      handleInfo(error?.response.data.msg, true);
-      dispatch({ type: ACTIONS.STOP_LOADING });
-    }
-  };
 
   const handleDeleteInstitution = async (institutionId) => {
     try {
@@ -278,8 +283,6 @@ const AppContextProvider = ({ children }) => {
       );
 
       await getUser();
-
-      addUserToLocalStorage({ user, token });
 
       handleInfo(data.msg);
 
