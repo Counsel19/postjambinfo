@@ -15,13 +15,11 @@ const Success = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!router.isReady) return;
-
     const reference = searchParams.get("reference");
-    console.log(reference, "reference")
+    console.log(reference, "reference");
     const getData = async () => {
       const payload = await verifyPayment(reference);
-      console.log(payload, "payload")
+      console.log(payload, "payload");
 
       if (payload) {
         setRes(payload);
