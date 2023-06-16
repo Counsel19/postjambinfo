@@ -8,7 +8,7 @@ export const GET = async (req) => {
     await connectToDB();
 
     const { searchParams } = new URL(req.url);
-    const ref = searchParams.get("reference");
+    const ref = searchParams.get("ref");
 
     const response = await verifyPayment(ref);
 

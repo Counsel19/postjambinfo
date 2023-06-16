@@ -5,10 +5,16 @@ import Link from "next/link";
 import { BsFillPhoneFill } from "react-icons/bs";
 import { MdOutlineMailOutline } from "react-icons/md";
 import MobileNav from "./MobileNav";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const { isAuthenticated, showDesktopDD, handleInputChange, user, logout } =
     useAppContext();
+  let router = useRouter();
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
 
   return (
     <div className="md:px-20 px-4 py-4">
@@ -71,7 +77,7 @@ const Navbar = () => {
                     </a>
 
                     <button
-                      onClick={logout}
+                      onClick={handleLogout}
                       className="text-gray-700 block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                       role="menuitem"
                       tabIndex="-1"
@@ -93,7 +99,7 @@ const Navbar = () => {
           )}
         </div>
         <div className="xl:hidden ">
-          <MobileNav />
+          <MobileNav handleLogout={handleLogout} />
         </div>
       </div>
       <div></div>

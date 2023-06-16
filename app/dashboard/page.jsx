@@ -47,7 +47,7 @@ const Dashboard = () => {
 
   return (
     <div className="px-4 lg:px-20">
-      {!user?.hasPaid && (
+      {user && !user?.hasPaid && (
         <div className="bg-[#f7e5e9] lg:sticky top-0 z-50 text-gray-700 text-sm lg:text-base flex flex-col lg:flex-row justify-center items-center  p-4 gap-6 mb-2 ">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
             <BsInfoCircleFill size={24} className="text-rose-400" />

@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
-const MobileNav = () => {
+const MobileNav = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAppContext();
+  const { isAuthenticated, user } = useAppContext();
 
   const handleIconHoverOpen = () => {
     setIsOpen(true);
@@ -15,6 +15,11 @@ const MobileNav = () => {
   const handleIconHoverClose = () => {
     setIsOpen(false);
   };
+  
+  const handleMobileLogout = () => {
+    setIsOpen(false);
+    handleLogout()
+  }
 
   return (
     <div>
@@ -47,7 +52,7 @@ const MobileNav = () => {
                   />
                 </span>
                 <ul className="flex mt-8  flex-col space-y-4 w-full">
-                  <li>
+                  <li onClick={() => setIsOpen(false)}>
                     <Link
                       className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600 hover:bg-blue-50"
                       href="/dashboard"
@@ -57,7 +62,7 @@ const MobileNav = () => {
                   </li>
                   <li>
                     <button
-                      onClick={logout}
+                      onClick={handleMobileLogout}
                       className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600  hover:bg-blue-50"
                     >
                       Sign Out
@@ -105,7 +110,7 @@ const MobileNav = () => {
                   />
                 </span>
                 <ul className="flex mt-8  flex-col space-y-4 w-full">
-                  <li className="w-full">
+                  <li onClick={() => setIsOpen(false)} className="w-full">
                     <Link
                       className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600 hover:bg-blue-50"
                       href="#register"
@@ -115,7 +120,7 @@ const MobileNav = () => {
                       Register
                     </Link>
                   </li>
-                  <li className="w-full">
+                  <li onClick={() => setIsOpen(false)} className="w-full">
                     <Link
                       className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600  hover:bg-blue-50"
                       href="/login"
