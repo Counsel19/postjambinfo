@@ -35,7 +35,7 @@ const Modal = () => {
     });
 
     setData(Object.values(current[0]));
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!resultContainer.current) return;
@@ -137,8 +137,8 @@ const Modal = () => {
     const { target } = e;
     if (!target.value.trim()) return setResults([]);
 
-    const filteredValue = data.filter((item) =>
-      item.toLowerCase().startsWith(target.value.toLowerCase())
+    const filteredValue = data.filter(
+      (item) => item.toLowerCase().indexOf(target.value.toLowerCase()) > -1
     );
     setResults(filteredValue);
   };
@@ -150,13 +150,13 @@ const Modal = () => {
     const { target } = e;
     if (!target.value.trim()) return setStateResults([]);
 
-    const filteredValue = state.filter((item) =>
-      item.toLowerCase().startsWith(target.value.toLowerCase())
+    const filteredValue = state.filter(
+      (item) => item.toLowerCase().indexOf(target.value.toLowerCase()) > -1
     );
     setStateResults(filteredValue);
   };
 
-  const clearValue = (e, inputType,) => {
+  const clearValue = (e, inputType) => {
     e.stopPropagation();
 
     setInstituteValue({ ...instituteValue, [inputType]: "" });
@@ -164,16 +164,15 @@ const Modal = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-700 bg-opacity-50 fixed top-0 right-0 left-0 bottom-0">
-      
       <div className="flex flex-col px-6 py-16 md:p-16  width-1/2 h-fit rounded-lg shadow bg-white relative">
-      <span>
-        <IoCloseSharp
-          className="absolute top-6 right-6 cursor-pointer text-rose-600"
-          size={30}
-          onClick={() => handleInputChange("showModal", false)}
-        />
-      </span>
-        
+        <span>
+          <IoCloseSharp
+            className="absolute top-6 right-6 cursor-pointer text-rose-600"
+            size={30}
+            onClick={() => handleInputChange("showModal", false)}
+          />
+        </span>
+
         <div className="flex flex-col items-center gap-4">
           <div className="md:col-span-6 ">
             <label
@@ -183,138 +182,137 @@ const Modal = () => {
               Edit Institution:
             </label>
             <div
-                tabIndex={1}
-                key={instituteValue.id}
-                onBlur={resetSearchComplete}
-                className="relative w-full grid lg:grid-cols-6 gap-4 mb-3 items-center"
+              tabIndex={1}
+              key={instituteValue.id}
+              onBlur={resetSearchComplete}
+              className="relative w-full grid lg:grid-cols-6 gap-4 mb-3 items-center"
+            >
+              <div
+                onKeyDown={(e) => handleKeyDown(e, instituteValue, "state")}
+                className="w-full h-10 md:col-span-2 bg-gray-50 flex border border-gray-200 rounded items-center mt-1 "
               >
-                <div
-                  onKeyDown={(e) => handleKeyDown(e, instituteValue, "state")}
-                  className="w-full h-10 md:col-span-2 bg-gray-50 flex border border-gray-200 rounded items-center mt-1 "
+                <input
+                  name="state"
+                  id="state"
+                  placeholder="Enter State"
+                  className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                  value={instituteValue?.state}
+                  onChange={(e) => handleStateChange(e)}
+                />
+                <button
+                  tabIndex="-1"
+                  onClick={(e) => clearValue(e, "state")}
+                  className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
                 >
-                  <input
-                    name="state"
-                    id="state"
-                    placeholder="Enter State"
-                    className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                    value={instituteValue?.state}
-                    onChange={(e) => handleStateChange(e)}
-                  />
-                  <button
-                    tabIndex="-1"
-                    onClick={(e) => clearValue(e, "state",)}
-                    className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
+                  <svg
+                    className="w-4 h-4 mx-2 fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <svg
-                      className="w-4 h-4 mx-2 fill-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
 
-                <div
-                  onKeyDown={(e) => handleKeyDown(e, instituteValue, "institution")}
-                  className="w-full h-10 md:col-span-3 bg-gray-50 flex border border-gray-200 rounded items-center mt-1 "
+              <div
+                onKeyDown={(e) =>
+                  handleKeyDown(e, instituteValue, "institution")
+                }
+                className="w-full h-10 md:col-span-3 bg-gray-50 flex border border-gray-200 rounded items-center mt-1 "
+              >
+                <input
+                  name="institution"
+                  id="institution"
+                  placeholder="Enter your Institution"
+                  className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                  value={instituteValue?.value}
+                  onChange={(e) => handleChange(e)}
+                />
+                <button
+                  tabIndex="-1"
+                  onClick={(e) => clearValue(e, "value")}
+                  className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
                 >
-                  <input
-                    name="institution"
-                    id="institution"
-                    placeholder="Enter your Institution"
-                    className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                    value={instituteValue?.value}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <button
-                    tabIndex="-1"
-                    onClick={(e) => clearValue(e, "value")}
-                    className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
+                  <svg
+                    className="w-4 h-4 mx-2 fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <svg
-                      className="w-4 h-4 mx-2 fill-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <div className="absolute grid md:grid-cols-6 gap-4 top-full right-0 left-0">
+                {showStateResults ? (
+                  <ul className=" mt-1 md:col-span-2 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
+                    {stateResults.map((item, index) => (
+                      <li
+                        onMouseDown={() =>
+                          handleSelection(index, instituteValue, "state")
+                        }
+                        ref={index == -focusIndex ? stateResultContainer : null}
+                        key={index}
+                        style={{
+                          backgroundColor:
+                            index === focusIndex ? "rgba(0,0,0,0.1)" : "",
+                        }}
+                        className="cursor-pointer hover:bg-black hover:bg-opacity-10 p-2"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="mt-1 md:col-span-2 w-full"></div>
+                )}
+
+                {showResults && (
+                  <ul className="md:col-span-3 mt-1 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
+                    {results.map((item, index) => (
+                      <li
+                        onMouseDown={() =>
+                          handleSelection(index, instituteValue, "institution")
+                        }
+                        ref={index == -focusIndex ? resultContainer : null}
+                        key={index}
+                        style={{
+                          backgroundColor:
+                            index === focusIndex ? "rgba(0,0,0,0.1)" : "",
+                        }}
+                        className="cursor-pointer hover:bg-black hover:bg-opacity-10 p-2"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div className="mt-1 md:col-span-1 w-full"></div>
+              </div>
+
+              <div className="md:col-span-1 text-right">
+                <div className="inline-flex items-end">
+                  <button
+                    onClick={() => handleEditInstitute(instituteValue)}
+                    disabled={isLoading}
+                    className="bg-blue-500 flex items-center gap-2 hover:bg-blue-700 text-white font-bold py-3 px-6 text-lg rounded disabled:bg-blue-200"
+                  >
+                    Submit
+                    {isLoading && <TailSpin height="20" width="20" />}
                   </button>
-                </div>
-
-                <div className="absolute grid md:grid-cols-6 gap-4 top-full right-0 left-0">
-                  {showStateResults ? (
-                    <ul className=" mt-1 md:col-span-2 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
-                      {stateResults.map((item, index) => (
-                        <li
-                          onMouseDown={() =>
-                            handleSelection(index, instituteValue, "state")
-                          }
-                          ref={
-                            index == -focusIndex ? stateResultContainer : null
-                          }
-                          key={index}
-                          style={{
-                            backgroundColor:
-                              index === focusIndex ? "rgba(0,0,0,0.1)" : "",
-                          }}
-                          className="cursor-pointer hover:bg-black hover:bg-opacity-10 p-2"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className="mt-1 md:col-span-2 w-full"></div>
-                  )}
-
-                  {showResults && (
-                    <ul className="md:col-span-3 mt-1 w-full p-2 bg-white shadow-lg rounded-bl rounded-br max-h-56 overflow-y-auto">
-                      {results.map((item, index) => (
-                        <li
-                          onMouseDown={() =>
-                            handleSelection(index, instituteValue, "institution")
-                          }
-                          ref={index == -focusIndex ? resultContainer : null}
-                          key={index}
-                          style={{
-                            backgroundColor:
-                              index === focusIndex ? "rgba(0,0,0,0.1)" : "",
-                          }}
-                          className="cursor-pointer hover:bg-black hover:bg-opacity-10 p-2"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <div className="mt-1 md:col-span-1 w-full"></div>
-                </div>
-
-                <div className="md:col-span-1 text-right">
-                  <div className="inline-flex items-end">
-
-                    <button
-                      onClick={() => handleEditInstitute(instituteValue)}
-                      disabled={isLoading}
-                      className="bg-blue-500 flex items-center gap-2 hover:bg-blue-700 text-white font-bold py-3 px-6 text-lg rounded disabled:bg-blue-200"
-                    >
-                      Submit
-                      {isLoading && <TailSpin height="20" width="20" />}
-                    </button>
-                  </div>
                 </div>
               </div>
+            </div>
           </div>
         </div>
       </div>
