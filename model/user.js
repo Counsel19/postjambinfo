@@ -76,7 +76,11 @@ UserSchema.pre("save", async function () {
 
 //Instance method to create JWT
 UserSchema.methods.createJWT = async function () {
-  const payload = { userId: this._id, isAdmin: this.isAdmin };
+  const payload = {
+    userId: this._id,
+    isAdmin: this.isAdmin,
+    hasPaid: this.hasPaid,
+  };
 
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
