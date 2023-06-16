@@ -99,7 +99,6 @@ const AppContextProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
-
   const getUser = async () => {
     try {
       dispatch({ type: ACTIONS.START_LOADING });
@@ -190,7 +189,7 @@ const AppContextProvider = ({ children }) => {
       let { data } = await authFetch.get(`/payment/verify?ref=${ref}`);
 
       await getUser();
-
+      console.log(data, "data");
       return data;
     } catch (error) {
       console.log(error);
@@ -272,7 +271,6 @@ const AppContextProvider = ({ children }) => {
       dispatch({ type: ACTIONS.STOP_LOADING });
     }
   };
-
 
   const handleDeleteInstitution = async (institutionId) => {
     try {
