@@ -27,7 +27,9 @@ export const DELETE = async (req) => {
       },
       {
         $pull: {
-          "institutions.$._id": institutionId,
+          institutions: {
+            _id: institutionId,
+          },
         },
       }
     );
