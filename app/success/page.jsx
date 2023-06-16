@@ -13,11 +13,11 @@ const Success = () => {
   const { verifyPayment } = useAppContext();
   const [res, setRes] = useState();
 
-  const searchParams = useSearchParams();
-  const reference = searchParams.get("reference");
-
   useEffect(() => {
     if (!router.isReady) return;
+
+    const searchParams = useSearchParams();
+    const reference = searchParams.get("reference");
 
     const getData = async () => {
       const payload = await verifyPayment(reference);
