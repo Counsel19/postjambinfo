@@ -3,7 +3,7 @@
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
@@ -12,6 +12,9 @@ const Success = () => {
 
   const { verifyPayment } = useAppContext();
   const [res, setRes] = useState();
+
+  const searchParams = useSearchParams();
+  const reference = searchParams.get("reference");
 
   useEffect(() => {
     if (!router.isReady) return;
