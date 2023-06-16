@@ -164,18 +164,20 @@ const Modal = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-700 bg-opacity-50 fixed top-0 right-0 left-0 bottom-0">
-      <span style={{ color: "red" }}>
+      
+      <div className="flex flex-col px-6 py-16 md:p-16  width-1/2 h-fit rounded-lg shadow bg-white relative">
+      <span>
         <IoCloseSharp
-          className="absolute top-24 right-24 cursor-pointer text-white"
+          className="absolute top-6 right-6 cursor-pointer text-rose-600"
           size={30}
           onClick={() => handleInputChange("showModal", false)}
         />
       </span>
-      <div className="flex flex-col p-6 md:p-16  width-1/2 h-fit rounded-lg shadow bg-white">
+        
         <div className="flex flex-col items-center gap-4">
           <div className="md:col-span-6 ">
             <label
-              className="font-semibold mb-4 text-lg text-gray-700"
+              className="font-semibold mb-6 text-lg text-gray-700"
               htmlFor="institution"
             >
               Edit Institution:

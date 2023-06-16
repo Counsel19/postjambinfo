@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 
 const Success = () => {
   const router = useRouter();
@@ -57,7 +58,7 @@ const Success = () => {
           </div>
         </div>
       ) : (
-        <p>Loading</p>
+        <TailSpin />
       )}
     </div>
   );

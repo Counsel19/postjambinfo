@@ -33,7 +33,7 @@ const MobileNav = () => {
             Hi! {user.fullname.slice(0, 5)}...
           </button>
           {isOpen && (
-            <div className="h-screen w-screen bg-gray-700 bg-opacity-50 fixed top-0 right-0 left-0 bottom-0">
+            <div className="h-screen w-screen z-50 bg-gray-700 bg-opacity-70 fixed top-0 right-0 left-0 bottom-0">
               <div
                 onMouseEnter={handleIconHoverOpen}
                 onMouseLeave={handleIconHoverClose}
@@ -49,7 +49,7 @@ const MobileNav = () => {
                 <ul className="flex mt-8  flex-col space-y-4 w-full">
                   <li>
                     <Link
-                      className="text-gray-900 w-full p-2 hover:text-gray-600 hover:bg-blue-50"
+                      className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600 hover:bg-blue-50"
                       href="/dashboard"
                     >
                       Dashboard
@@ -58,7 +58,7 @@ const MobileNav = () => {
                   <li>
                     <button
                       onClick={logout}
-                      className="text-gray-900 w-full p-2 hover:text-gray-600  hover:bg-blue-50"
+                      className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600  hover:bg-blue-50"
                     >
                       Sign Out
                     </button>
@@ -107,7 +107,7 @@ const MobileNav = () => {
                 <ul className="flex mt-8  flex-col space-y-4 w-full">
                   <li className="w-full">
                     <Link
-                      className="text-gray-900 w-full p-2 hover:text-gray-600 hover:bg-blue-50"
+                      className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600 hover:bg-blue-50"
                       href="#register"
                       role="menuitem"
                       tabIndex="-1"
@@ -117,7 +117,7 @@ const MobileNav = () => {
                   </li>
                   <li className="w-full">
                     <Link
-                      className="text-gray-900 w-full p-2 hover:text-gray-600  hover:bg-blue-50"
+                      className="text-gray-900 flex justify-start w-full p-2 hover:text-gray-600  hover:bg-blue-50"
                       href="/login"
                       role="menuitem"
                       tabIndex="-1"

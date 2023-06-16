@@ -30,8 +30,13 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const { initiatePayment, isLoading, handleInfo, errorMessage, clearMessage } =
-    useAppContext();
+  const {
+    handleSaveDetails,
+    isLoading,
+    handleInfo,
+    errorMessage,
+    clearMessage,
+  } = useAppContext();
   const uid = new ShortUniqueId({ length: 10 });
   const router = useRouter();
 
@@ -201,15 +206,16 @@ const Register = () => {
       fullname: input.fullname,
       email: input.email,
       phone: input.phone,
+      password: input.password,
       institutes: instituteValue.map((item) => ({
         state: item.state,
         institution: item.value,
       })),
     };
-    const url = await initiatePayment(payload);
+    const res = await handleSaveDetails(payload);
 
-    if (url) {
-      router.push(url);
+    if (res) {
+      return router.push("/dashboard");
     }
   };
 

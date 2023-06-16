@@ -42,24 +42,26 @@ const UserSchema = new mongoose.Schema(
     },
     amount: {
       type: Number,
-      required: true,
     },
     reference: {
       type: String,
-      required: true,
     },
     transactionId: {
       type: Number,
-      required: true,
     },
     status: {
       type: String,
-      required: true,
     },
     cardType: {
+      type: String,
+    },
+    hasPaid: {
       type: Boolean,
       default: false,
-      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

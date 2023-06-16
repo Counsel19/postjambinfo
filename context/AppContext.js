@@ -38,9 +38,11 @@ export const inintialState = {
   editingSchool: null,
   showModal: false,
   numOfPages: 1,
+  activeLoad: "",
   successMessage: "",
   errorMessage: "",
   page: 1,
+  showDesktopDD: false,
   sortOptions: [
     { _id: "latest" },
     { _id: "oldest" },
@@ -87,16 +89,66 @@ const AppContextProvider = ({ children }) => {
     }
   );
 
-  const initiatePayment = async ({ fullname, email, phone, institutes }) => {
+  const addUserToLocalStorage = ({ user, token }) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+  };
+
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  };
+
+  const handleSaveDetails = async ({
+    fullname,
+    email,
+    password,
+    phone,
+    institutes,
+  }) => {
     try {
       dispatch({ type: ACTIONS.START_LOADING });
-      const requestObj = {
+
+      const { data } = await authFetch.post("/users/add", {
         fullname,
         email,
         phone,
+        password,
         institutions: JSON.stringify(institutes),
-      };
-      const { data } = await authFetch.post("/payment/pay", requestObj);
+      });
+
+      const { user, token } = data;
+
+      if (user && token) {
+        dispatch({
+          type: ACTIONS.LOGIN,
+          payload: {
+            user,
+            token,
+          },
+        });
+
+        addUserToLocalStorage({ user, token });
+        dispatch({ type: ACTIONS.STOP_LOADING });
+        return user;
+      } else {
+        dispatch({ type: ACTIONS.STOP_LOADING });
+        throw new Error("Error");
+      }
+    } catch (error) {
+      dispatch({ type: ACTIONS.STOP_LOADING });
+      handleInfo(error?.response.data.msg, true);
+      console.log(error);
+    }
+  };
+  const initiatePayment = async ({ fullname, email }) => {
+    try {
+      dispatch({ type: ACTIONS.START_LOADING });
+
+      const { data } = await authFetch.post("/payment/pay", {
+        fullname,
+        email,
+      });
 
       dispatch({ type: ACTIONS.STOP_LOADING });
       return data?.url;
@@ -122,7 +174,7 @@ const AppContextProvider = ({ children }) => {
     try {
       dispatch({ type: ACTIONS.START_LOADING });
       const { search, sort, page, instituteFilter } = state;
-      let url = `/users?sort=${sort}&page=${page}&instituteFilter=${instituteFilter}`;
+      let url = `/users/get/?sort=${sort}&page=${page}&instituteFilter=${instituteFilter}`;
       if (search) {
         url = url + `&search=${search}`;
       }
@@ -136,18 +188,7 @@ const AppContextProvider = ({ children }) => {
     }
   };
 
-  const addUserToLocalStorage = ({ user, token }) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", token);
-  };
-
-  const removeUserFromLocalStorage = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-  };
-
   const handleEditInstitute = async (requestObj) => {
-    console.log(requestObj, "requestObj");
     try {
       dispatch({ type: ACTIONS.START_LOADING });
 
@@ -176,7 +217,6 @@ const AppContextProvider = ({ children }) => {
   };
 
   const handleEditProfile = async (requestObj) => {
-    console.log(requestObj, "requestObj");
     try {
       dispatch({ type: ACTIONS.START_LOADING });
 
@@ -335,6 +375,7 @@ const AppContextProvider = ({ children }) => {
         handleEditProfile,
         isAuthenticatedAsAdmin,
         clearMessage,
+        handleSaveDetails,
         initiatePayment,
         verifyPayment,
         handleInputChange,

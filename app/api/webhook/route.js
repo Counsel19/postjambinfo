@@ -1,8 +1,8 @@
 import { connectToDB } from "@/utils/connect";
 import { StatusCodes } from "http-status-codes";
 import User from "@/model/user";
-import nodemailer from "nodemailer"
-import HTML_TEMPLATE from "@/lib/emailTemp"
+import nodemailer from "nodemailer";
+import HTML_TEMPLATE from "@/lib/emailTemp";
 
 export const POST = async (req) => {
   try {
@@ -16,25 +16,28 @@ export const POST = async (req) => {
       id,
       status,
       customer: { email },
-      metadata: { full_name, phone, institutions },
+      metadata: { fullname },
       authorization: { card_type, bank },
     } = event.data;
-    let payment;
 
-    payment = await User.create({
-      reference,
-      institutions: JSON.parse(institutions),
-      transactionId: id,
-      status,
-      amount,
-      email,
-      phone,
-      fullname: full_name,
-      cardType: card_type,
-      paymentBank: bank,
-    });
+    const foundUser = await User.findOne({ email });
 
-  
+    if (!foundUser) {
+      return new Response(JSON.stringify({ msg: "User does not exist" }), {
+        status: StatusCodes.BAD_REQUEST,
+      });
+    }
+
+    foundUser.reference = reference;
+    foundUser.transactionId = id;
+    foundUser.status = status;
+    foundUser.amount = amount;
+    foundUser.cardType = card_type;
+    foundUser.paymentBank = bank;
+    foundUser.hasPaid = true;
+
+    await foundUser.save();
+
     const transporter = nodemailer.createTransport({
       port: 465,
       service: "gmail",
@@ -48,9 +51,9 @@ export const POST = async (req) => {
 
     let mailData = await transporter.sendMail({
       from: "counselokpabijs@gmail.com",
-      to: event.data.customer.email, // list of receivers
+      to: email, // list of receivers
       subject: "Created Successfully ✔", // Subject line
-      html: HTML_TEMPLATE(event.data.metadata.full_name), // html body
+      html: HTML_TEMPLATE(fullname), // html body
     });
 
     transporter.sendMail(mailData, function (err, info) {

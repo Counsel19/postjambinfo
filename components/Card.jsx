@@ -4,7 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { TailSpin } from "react-loader-spinner";
 
 const Card = ({ school }) => {
-  const { handleInputChange, isLoading, handleDeleteInstitution } =
+  const { handleInputChange, activeLoad, isLoading, handleDeleteInstitution } =
     useAppContext();
 
   const handleEnableEdit = (school) => {
@@ -14,6 +14,7 @@ const Card = ({ school }) => {
 
   const handleDelete = async () => {
     await handleDeleteInstitution(school._id);
+    handleInputChange("activeLoad", school._id);
   };
 
   return (
@@ -28,11 +29,13 @@ const Card = ({ school }) => {
           <FiEdit onClick={() => handleEnableEdit(school)} />
         </button>
         <button
-          disabled={isLoading}
+          disabled={isLoading && activeLoad === school._id}
           className="rounded p-2 bg-rose-200 disabled:bg-rose-300 text-rose-800 flex gap-2  item-center justify-center"
         >
           <MdDeleteOutline onClick={() => handleDelete(school)} />
-          {isLoading && <TailSpin height={20} width={20} />}
+          {isLoading && activeLoad === school._id && (
+            <TailSpin height={20} width={20} />
+          )}
         </button>
       </div>
     </div>

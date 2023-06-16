@@ -13,11 +13,9 @@ export const POST = async (req) => {
       email: body.email,
       amount: 500 * 100,
     };
-    
+
     form.metadata = {
-      full_name: body.fullname,
-      phone: body.phone,
-      institutions: body.institutions
+      fullname: body.fullname,
     };
     const response = await initializePayment(form);
 

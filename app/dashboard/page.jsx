@@ -9,11 +9,14 @@ import Card from "@/components/Card";
 import SelectView from "@/components/selectView";
 import Profile from "@/components/Profile";
 import { useRouter } from "next/navigation";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 const Dashboard = () => {
   const {
     user,
     isAuthenticated,
+    initiatePayment,
+    isLoading,
     showModal,
     showProfile,
     clearMessage,
@@ -31,16 +34,47 @@ const Dashboard = () => {
     }
   }, [authState]);
 
+  const handlePay = async () => {
+    const url = await initiatePayment({
+      email: user?.email,
+      fullname: user?.fullname,
+    });
+
+    if (url) {
+      return router.push(url);
+    }
+  };
+
   return (
-    <div className="px-4 md:px-20 ">
+    <div className="px-4 lg:px-20">
+      {!user?.hasPaid && (
+        <div className="bg-[#f7e5e9] lg:sticky top-0 z-50 text-gray-700 text-sm lg:text-base flex flex-col lg:flex-row justify-center items-center  p-4 gap-6 mb-2 ">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+            <BsInfoCircleFill size={24} className="text-rose-400" />
+            <p className="font-semibold">
+              Please note that you cannot get any SMS notification yet until you
+              pay a token of N500
+            </p>
+          </div>
+
+          <button
+            onClick={handlePay}
+            disabled={isLoading}
+            className="bg-white gap-2 disabled:bg-gray-100  rounded-lg shadow-lg text-blue-800 font-bold justify-center flex items-center px-4 py-3"
+          >
+            Proceed to Pay
+            {isLoading && <TailSpin height={20} width={20} />}
+          </button>
+        </div>
+      )}
       <DashboardBanner user={user} />
 
       <SelectView />
 
-      <div className="mb-20">
+      <div className="mb-20 mt-1">
         {user ? (
           !showProfile ? (
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid lg:grid-cols-3 gap-6">
               {user.institutions?.map((item) => (
                 <div className="cols-span-1" key={item._id}>
                   <Card school={item} />
