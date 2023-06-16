@@ -42,7 +42,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await login(input);
-    console.log(user, "user");
+
     if (user && user.isAdmin) {
       router.push("/admin");
     } else if (user) {

@@ -1,6 +1,6 @@
 const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
   return (
-    <div className="w-full md:w-1/4 lg:w-1/5">
+    <div className="w-full col-span-1">
       <label className="form-lable" htmlFor={name}>
         {labelText || name}
       </label>

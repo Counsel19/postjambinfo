@@ -13,11 +13,9 @@ export const DELETE = async (req) => {
     const { searchParams } = new URL(req.url);
     const institutionId = searchParams.get("institutionId");
 
-    console.log(institutionId, "institutionId");
     const resource = await user.findOne({
       "institutions._id": institutionId,
     });
-    console.log(resource, "resource");
 
     checkPermissions(payload.userId, resource?._id);
 
