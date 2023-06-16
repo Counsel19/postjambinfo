@@ -189,7 +189,7 @@ const AppContextProvider = ({ children }) => {
       let { data } = await authFetch.get(`/payment/verify?ref=${ref}`);
 
       await getUser();
-      console.log(data, "data");
+   
       return data;
     } catch (error) {
       console.log(error);

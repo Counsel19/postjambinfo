@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { IoArrowBackOutline } from "react-icons/io5";
 import { TailSpin } from "react-loader-spinner";
 
 const Success = () => {
@@ -16,10 +17,9 @@ const Success = () => {
 
   useEffect(() => {
     const reference = searchParams.get("reference");
-    console.log(reference, "reference");
+
     const getData = async () => {
       const payload = await verifyPayment(reference);
-      console.log(payload, "payload");
 
       if (payload) {
         setRes(payload);
@@ -72,10 +72,11 @@ const Success = () => {
             </p>
 
             <Link
-              href="/"
+              href="/dashboard"
               className="bg-blue-500 flex items-center gap-2 hover:bg-blue-700 text-white py-3 px-6 rounded"
             >
-              Back to Home
+              <IoArrowBackOutline size={20} />
+              Back to Dashboard
             </Link>
           </div>
         </div>

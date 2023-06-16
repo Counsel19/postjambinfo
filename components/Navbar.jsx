@@ -67,7 +67,7 @@ const Navbar = () => {
                 >
                   <div className="py-1 w-full" role="none">
                     <a
-                      href="#"
+                      href="/dashboard"
                       className="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-gray-100"
                       role="menuitem"
                       tabIndex="-1"
