@@ -18,7 +18,7 @@ const SearchContainer = () => {
     if (isLoading) return;
     let name = e.target.name;
     let value = e.target.value;
-    console.log(name, value);
+  
     handleInputChange(name, value);
   };
 
@@ -33,7 +33,7 @@ const SearchContainer = () => {
         <h4 className="text-lg font-semibold text-gray-600 mb-3">
           Search Form
         </h4>
-        <div className="form-center w-full flex flex-wrap gap-8 items-center ">
+        <div className="form-center w-full grid grid-cols-2 gap-8 items-center ">
           {/* Search input */}
           <FormRow
             type="search"
@@ -64,7 +64,7 @@ const SearchContainer = () => {
           />
 
           <button
-            className=" h-10  w-full md:w-1/4 lg:w-1/5 mt-6 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded"
+            className=" h-10  w-full col-span-1 mt-6 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded"
             disabled={isLoading}
             onClick={handleSubmit}
           >

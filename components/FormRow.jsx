@@ -9,7 +9,7 @@ const FormRow = ({
   placeholder,
 }) => {
   return (
-    <div className="w-full md:w-1/4 lg:w-1/5">
+    <div className="w-full col-span-1">
       {!isCustomerSearch ? (
         <label htmlFor={name} className="form-label">
           {labelText || name}
